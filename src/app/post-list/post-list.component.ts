@@ -17,7 +17,7 @@ export class PostListComponent implements OnInit {
   }
 
   loadPosts(): void {
-    this.postService.getPosts().subscribe((posts) => {
+    this.postService.orderedByCreatedDate().subscribe((posts) => {
       this.posts = posts;
     });
   }

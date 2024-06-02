@@ -5,14 +5,12 @@ import { PostListComponent } from './post-list/post-list.component';
 import { NgModel } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar.component';
+import { HomeComponent } from './home/home.component';
 
-const routes: Routes = [
-  {path:'',component:PostListComponent},
-];
+const routes: Routes = [{ path: '', component: HomeComponent }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
-
+export class AppRoutingModule {}

@@ -9,6 +9,7 @@ import { PostService } from './services/post.service';
 import { PostListComponent } from './post-list/post-list.component';
 import { CommonModule } from '@angular/common';
 import { PostListItemComponent } from './post-list-item/post-list-item.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { PostListItemComponent } from './post-list-item/post-list-item.component
     TopBarComponent,
     PostListComponent,
     PostListItemComponent,
+    HomeComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, CommonModule],
   providers: [PostService],
