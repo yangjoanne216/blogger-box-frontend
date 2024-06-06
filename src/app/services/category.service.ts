@@ -2,10 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
 import { Category } from '../data/category';
+import { environment } from '../environment/environment';
 
 @Injectable()
 export class CategoryService {
-  private categoriesUrl = '${environment.apiUrl}v1/categories';
+  private categoriesUrl = `${environment.apiUrl}v1/categories`;
 
   constructor(private http: HttpClient) {}
 
@@ -45,8 +46,9 @@ export class CategoryService {
   //Handling Errors
   protected handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error('${operation} failed ${eror.message}', error);
+      console.error(`${operation} failed ${error.message}`, error);
       //Let the app keep running by returning an empty result
+      console.log('Error Object:', error);
       return of(result as T);
     };
   }

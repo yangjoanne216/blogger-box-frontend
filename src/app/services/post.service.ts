@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from '../environment/environment';
-import { Post } from '../data/post';
+import { Post, postCreateInput } from '../data/post';
 
 @Injectable()
 export class PostService {
@@ -41,10 +41,12 @@ export class PostService {
 
   //Creat a new post
   //Creates a new post with the given title, content, and category ID provided in the request body. Returns the created post
-  create(post: Post): Observable<Post> {
+  create(postCreateInput: postCreateInput): Observable<postCreateInput> {
     return this.http
-      .post<Post>(`${this.postsUrl}`, post)
-      .pipe(catchError(this.handleError<Post>('create', post)));
+      .post<postCreateInput>(`${this.postsUrl}`, postCreateInput)
+      .pipe(
+        catchError(this.handleError<postCreateInput>('create', postCreateInput))
+      );
   }
 
   //Update an existing post

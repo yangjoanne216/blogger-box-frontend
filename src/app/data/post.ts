@@ -7,3 +7,5 @@ export interface Post {
   createdDate: Date;
   category: Category;
 }
+
+export type postCreateInput = Omit<Post, 'id' | 'createdDate'>;

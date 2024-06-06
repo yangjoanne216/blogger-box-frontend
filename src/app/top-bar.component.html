@@ -3,10 +3,21 @@
     <a class="navbar-brand" [routerLink]="['/']">
       <i class="bi bi-postcard"></i> Blogger-Box
     </a>
-    <form class="d-flex">
-      <button class="btn btn-outline-success" type="button">
+    <div class="d-flex ms-auto">
+      <button
+        class="btn btn-outline-primary me-2"
+        type="button"
+        [routerLink]="['/']"
+      >
+        <i class="bi bi-house-door"></i> Home
+      </button>
+      <button
+        class="btn btn-outline-success"
+        type="button"
+        [routerLink]="['/add-post']"
+      >
         <i class="bi bi-pencil-square"></i> Write
       </button>
-    </form>
+    </div>
   </div>
 </nav>
