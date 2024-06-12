@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PostListComponent } from './post-list/post-list.component';
-import { ReactiveFormsModule } from '@angular/forms'; // 导入 ReactiveFormsModule
 import { NgModel } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar.component';

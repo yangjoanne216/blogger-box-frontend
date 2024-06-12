@@ -24,7 +24,8 @@
         class="form-control"
         required
       >
-        <option *ngFor="let category of categories" [ngValue]="category">
+        <option *ngFor="let category of categories" [ngValue]="category"> 
+          <!-- Use ngValue to avoid category being characterized -->
           {{ category.name }}
         </option>
       </select>
