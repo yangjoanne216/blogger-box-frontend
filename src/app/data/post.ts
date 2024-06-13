@@ -8,4 +8,6 @@ export interface Post {
   category: Category;
 }
 
-export type postCreateInput = Omit<Post, 'id' | 'createdDate'>;
+export type PostCreateInput = Omit<Post, 'category' | 'id' | 'createdDate'> & {
+  categoryName: String;
+};

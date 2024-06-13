@@ -4,8 +4,7 @@ import { PostService } from '../services/post.service';
 import { CategoryService } from '../services/category.service';
 import { Category } from '../data/category';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-add-post',
   templateUrl: './add-post.component.html',
@@ -19,13 +18,34 @@ export class AddPostComponent {
     private fb: FormBuilder,
     private postService: PostService,
     private categoryService: CategoryService,
-    private router: Router,
-    private snackBar: MatSnackBar
+    private router: Router
   ) {
     this.postForm = this.fb.group({
-      title: ['', Validators.required],
-      content: ['', Validators.required],
-      category: [null, Validators.required],
+      title: [
+        '',
+        {
+          validators: [
+            Validators.required,
+            Validators.minLength(5),
+            Validators.maxLength(150),
+          ],
+          updateOn: 'blur',
+        },
+      ],
+      content: [
+        '',
+        {
+          validators: [Validators.required, Validators.maxLength(2500)],
+          updateOn: 'blur',
+        },
+      ],
+      categoryName: [
+        null,
+        {
+          validators: [Validators.required],
+          updateOn: 'blur',
+        },
+      ],
     });
   }
 
@@ -36,26 +56,60 @@ export class AddPostComponent {
   }
 
   onSubmit(): void {
+    if (this.postForm.invalid) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please review your post',
+      });
+      return;
+    }
+
+    const postData = {
+      title: this.postForm.value.title,
+      content: this.postForm.value.content,
+      categoryName: this.postForm.value.categoryName,
+    };
     if (this.postForm.valid) {
-      const postData = {
-        title: this.postForm.value.title,
-        content: this.postForm.value.content,
-        category: this.postForm.value.category,
-      };
       this.postService.create(postData).subscribe(
         () => {
-          this.snackBar.open('Post created successfully!', 'Close', {
-            duration: 3000,
+          Swal.fire({
+            icon: 'success',
+            title: 'Post Submitted Successfully',
+            showConfirmButton: false,
+            timer: 1500,
           });
           this.router.navigate(['/']);
         },
         (error) => {
-          this.snackBar.open('Failed to create post!', 'Close', {
-            duration: 3000,
+          Swal.fire({
+            icon: 'error',
+            title: 'Failed to create post!',
+            text: 'An error occurred while creating the post. Please try again.',
+            showConfirmButton: true,
           });
           console.error('Error occurred while creating post:', error);
         }
       );
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please review your post',
+        showConfirmButton: true,
+      });
     }
+  }
+
+  get title() {
+    return this.postForm.get('title');
+  }
+
+  get content() {
+    return this.postForm.get('content');
+  }
+
+  get category() {
+    return this.postForm.get('category');
   }
 }

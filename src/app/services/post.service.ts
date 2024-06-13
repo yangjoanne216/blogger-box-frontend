@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from '../environment/environment';
-import { Post, postCreateInput } from '../data/post';
+import { Post, PostCreateInput } from '../data/post';
 
 @Injectable()
 export class PostService {
@@ -40,12 +40,12 @@ export class PostService {
   }
 
   //Creat a new post
-  //Creates a new post with the given title, content, and category ID provided in the request body. Returns the created post
-  create(postCreateInput: postCreateInput): Observable<postCreateInput> {
+  //Creates a new post with the given title, content, and category name provided in the request body. Returns the created post
+  create(postCreateInput: PostCreateInput): Observable<PostCreateInput> {
     return this.http
-      .post<postCreateInput>(`${this.postsUrl}`, postCreateInput)
+      .post<PostCreateInput>(`${this.postsUrl}`, postCreateInput)
       .pipe(
-        catchError(this.handleError<postCreateInput>('create', postCreateInput))
+        catchError(this.handleError<PostCreateInput>('create', postCreateInput))
       );
   }
 
@@ -78,7 +78,7 @@ export class PostService {
   protected handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(`${operation} failed: ${error.message}`, error);
-      ///Let the app keep running by returning an empty result
+      // Let the app keep running by returning an empty result
       return of(result as T);
     };
   }
