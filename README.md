@@ -1,4 +1,9 @@
 # BloggerBoxFrontend
+### Author: Yang YANG (MIAGE apprentisage)
+## Introduction
+
+Blogger-Box is an Angular-based frontend application that allows users to create, read, update, and delete blog posts. This project includes features like form validation, user-friendly UI using Bootstrap, and feedback notifications using SweetAlert2.
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
 
