@@ -1,54 +1,51 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
-import { Category } from '../data/category';
+import { Category, CategoryCreateInput } from '../data/category';
 import { environment } from '../environment/environment';
-
 @Injectable()
 export class CategoryService {
   private categoriesUrl = `${environment.apiUrl}v1/categories`;
 
   constructor(private http: HttpClient) {}
 
-  //Making HTTP GET Resquests: get all Categories
-  getAll(): Observable<Category[]> {
+  getAll(name?: string): Observable<Category[]> {
+    let params = new HttpParams();
+    if (name) {
+      params = params.set('name', name);
+    }
     return this.http
-      .get<Category[]>(this.categoriesUrl)
-      .pipe(catchError(this.handleError<Category[]>('getAll')));
+      .get<Category[]>(this.categoriesUrl, { params })
+      .pipe(catchError(this.handleError<Category[]>('getAll', [])));
   }
 
-  //Making HTTP GET Resquests: get categorie by id
   getById(id: string): Observable<Category> {
     return this.http
       .get<Category>(`${this.categoriesUrl}/${id}`)
       .pipe(catchError(this.handleError<Category>('getById')));
   }
 
-  //Making HTTP POST Requests:
-  create(category: Category): Observable<Category> {
+  create(categoryCreateInput: CategoryCreateInput): Observable<Category> {
     return this.http
-      .post<Category>(this.categoriesUrl, category)
-      .pipe(catchError(this.handleError<Category>('create', category)));
+      .post<Category>(this.categoriesUrl, { categoryCreateInput })
+      .pipe(catchError(this.handleError<Category>('create')));
   }
 
-  //Making HTTP PUT Requests:
-  update(category: Category): Observable<Category> {
+  update(id: string, name: string): Observable<Category> {
     return this.http
-      .put<Category>(this.categoriesUrl, category)
-      .pipe(catchError(this.handleError<Category>('put', category)));
+      .put<Category>(`${this.categoriesUrl}/${id}`, { name })
+      .pipe(catchError(this.handleError<Category>('update')));
   }
 
-  //Making HTTP DELETE Requests
-  delete(category: Category): Observable<boolean> {
-    return this.http.delete<boolean>('${this.categoriesUrl}/${category.id}');
+  deleteById(id: string): Observable<boolean> {
+    return this.http
+      .delete<boolean>(`${this.categoriesUrl}/${id}`)
+      .pipe(catchError(this.handleError<boolean>('deleteById', false)));
   }
 
-  //Handling Errors
-  protected handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(`${operation} failed ${error.message}`, error);
-      //Let the app keep running by returning an empty result
-      console.log('Error Object:', error);
+      console.error(`${operation} failed: ${error.message}`, error);
       return of(result as T);
     };
   }
